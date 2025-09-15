@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes DISC 96 Item</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* Blue-500 */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Tes DISC</h1>
+            <p class="text-gray-600 text-lg">Temukan tipe kepribadian Anda dengan 96 pertanyaan</p>
+        </div>
+
+        <div class="mb-8 hidden" id="progress-container">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-gray-700">Progress</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">0/96</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="progress-bar bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full" id="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div id="start-screen" class="text-center bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-2xl font-bold">D.I.S.C</span>
+                </div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selamat Datang di Tes DISC</h2>
+                <p class="text-gray-600 mb-6">Tes ini akan membantu Anda memahami gaya kepribadian dan perilaku Anda. Jawab setiap pertanyaan dengan jujur berdasarkan bagaimana Anda biasanya berperilaku.</p>
+
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Isi Data Diri</h2>
+                    <div class="space-y-4 text-left">
+                        <div>
+                            <label for="name" class="block text-gray-700">Nama Lengkap</label>
+                            <input type="text" id="name" class="w-full mt-1 p-2 border border-gray-300 rounded-md form-input">
+                        </div>
+                        <div>
+                            <label for="gender" class="block text-gray-700">Jenis Kelamin</label>
+                            <select id="gender" class="w-full mt-1 p-2 border border-gray-300 rounded-md form-input">
+                                <option value="" disabled selected>Pilih</option>
+                                <option value="pria">Pria</option>
+                                <option value="wanita">Wanita</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="age" class="block text-gray-700">Usia</label>
+                            <input type="number" id="age" class="w-full mt-1 p-2 border border-gray-300 rounded-md form-input">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700">Alamat Email</label>
+                            <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md form-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="text-white font-bold text-sm">D</span>
+                        </div>
+                        <h3 class="font-semibold text-red-700">Dominance</h3>
+                        <p class="text-xs text-red-600">Tegas & Langsung</p>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="text-white font-bold text-sm">I</span>
+                        </div>
+                        <h3 class="font-semibold text-yellow-700">Influence</h3>
+                        <p class="text-xs text-yellow-600">Antusias & Sosial</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="text-white font-bold text-sm">S</span>
+                        </div>
+                        <h3 class="font-semibold text-green-700">Steadiness</h3>
+                        <p class="text-xs text-green-600">Stabil & Sabar</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="text-white font-bold text-sm">C</span>
+                        </div>
+                        <h3 class="font-semibold text-blue-700">Compliance</h3>
+                        <p class="text-xs text-blue-600">Teliti & Analitis</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="startTest()" id="start-btn" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                Mulai Tes
+            </button>
+        </div>
+
+        <div id="question-screen" class="hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8 question-card">
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="question-text"></h3>
+                    <div class="space-y-3" id="options-container"></div>
+                </div>
+                <div class="flex justify-between">
+                    <button onclick="previousQuestion()" id="prev-btn" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        Sebelumnya
+                    </button>
+                    <button onclick="nextQuestion()" id="next-btn" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        Selanjutnya
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-screen" class="hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Hasil Tes DISC Anda</h2>
+                    <p class="text-gray-600">Berikut adalah profil kepribadian DISC Anda</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="space-y-4" id="disc-scores"></div>
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Tipe Dominan Anda</h3>
+                        <div id="dominant-type" class="text-center"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Interpretasi Hasil</h3>
+                    <div id="interpretation" class="text-gray-700"></div>
+                </div>
+
+                <div class="text-center mt-6">
+                    <button onclick="downloadResult()" class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105">
+                        Download Hasil
+                    </button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button onclick="restartTest()" class="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-300 transform hover:scale-105">
+                        Ulangi Tes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DISC Questions Database (96 items)
+        const questions = [
+            // Dominance Questions (24 items)
+            { text: "Saya suka mengambil kendali dalam situasi sulit", type: "D" },
+            { text: "Saya lebih suka bekerja dengan target yang menantang", type: "D" },
+            { text: "Saya tidak takut mengambil keputusan yang sulit", type: "D" },
+            { text: "Saya sering menjadi pemimpin dalam kelompok", type: "D" },
+            { text: "Saya lebih suka bertindak cepat daripada menunggu", type: "D" },
+            { text: "Saya nyaman dengan persaingan yang ketat", type: "D" },
+            { text: "Saya suka tantangan yang membutuhkan keberanian", type: "D" },
+            { text: "Saya cenderung langsung pada intinya saat berbicara", type: "D" },
+            { text: "Saya tidak mudah menyerah ketika menghadapi hambatan", type: "D" },
+            { text: "Saya suka mengambil risiko untuk mencapai tujuan", type: "D" },
+            { text: "Saya merasa nyaman membuat keputusan sendiri", type: "D" },
+            { text: "Saya sering mengambil inisiatif dalam proyek baru", type: "D" },
+            { text: "Saya lebih suka memimpin daripada mengikuti", type: "D" },
+            { text: "Saya tidak takut menghadapi konflik jika diperlukan", type: "D" },
+            { text: "Saya suka bekerja dalam lingkungan yang dinamis", type: "D" },
+            { text: "Saya cenderung fokus pada hasil akhir", type: "D" },
+            { text: "Saya merasa energik ketika menghadapi tantangan", type: "D" },
+            { text: "Saya suka mengatur dan mengarahkan orang lain", type: "D" },
+            { text: "Saya tidak suka menunggu persetujuan orang lain", type: "D" },
+            { text: "Saya cenderung tegas dalam mengambil keputusan", type: "D" },
+            { text: "Saya suka bekerja dengan deadline yang ketat", type: "D" },
+            { text: "Saya merasa nyaman menjadi pusat perhatian", type: "D" },
+            { text: "Saya sering mengambil peran sebagai problem solver", type: "D" },
+            { text: "Saya lebih suka lingkungan kerja yang kompetitif", type: "D" },
+
+            // Influence Questions (24 items)
+            { text: "Saya mudah bergaul dengan orang baru", type: "I" },
+            { text: "Saya suka berbagi ide dan pengalaman dengan orang lain", type: "I" },
+            { text: "Saya merasa energik ketika berada di sekitar orang banyak", type: "I" },
+            { text: "Saya suka menjadi pusat perhatian dalam percakapan", type: "I" },
+            { text: "Saya mudah memotivasi dan menginspirasi orang lain", type: "I" },
+            { text: "Saya suka bekerja dalam tim yang dinamis", type: "I" },
+            { text: "Saya cenderung optimis dalam menghadapi situasi sulit", type: "I" },
+            { text: "Saya suka mengekspresikan perasaan dan emosi saya", type: "I" },
+            { text: "Saya mudah meyakinkan orang lain tentang ide saya", type: "I" },
+            { text: "Saya suka suasana kerja yang menyenangkan dan santai", type: "I" },
+            { text: "Saya cenderung spontan dalam mengambil keputusan", type: "I" },
+            { text: "Saya suka berpartisipasi dalam kegiatan sosial", type: "I" },
+            { text: "Saya mudah beradaptasi dengan perubahan", type: "I" },
+            { text: "Saya suka berbicara di depan umum", type: "I" },
+            { text: "Saya cenderung melihat sisi positif dari setiap situasi", type: "I" },
+            { text: "Saya suka brainstorming dan diskusi kelompok", type: "I" },
+            { text: "Saya mudah membangun hubungan dengan rekan kerja", type: "I" },
+            { text: "Saya suka lingkungan kerja yang interaktif", type: "I" },
+            { text: "Saya cenderung ekspresif dalam komunikasi", type: "I" },
+            { text: "Saya suka menghibur dan membuat orang lain tertawa", type: "I" },
+            { text: "Saya mudah antusias dengan proyek baru", type: "I" },
+            { text: "Saya suka bekerja dengan orang yang beragam", type: "I" },
+            { text: "Saya cenderung terbuka dalam berbagi informasi", type: "I" },
+            { text: "Saya suka suasana yang penuh energi dan semangat", type: "I" },
+
+            // Steadiness Questions (24 items)
+            { text: "Saya lebih suka rutinitas yang dapat diprediksi", type: "S" },
+            { text: "Saya adalah pendengar yang baik", type: "S" },
+            { text: "Saya suka membantu orang lain menyelesaikan masalah", type: "S" },
+            { text: "Saya cenderung sabar dalam menghadapi situasi sulit", type: "S" },
+            { text: "Saya lebih suka bekerja dalam tim yang harmonis", type: "S" },
+            { text: "Saya tidak suka perubahan yang mendadak", type: "S" },
+            { text: "Saya cenderung loyal terhadap organisasi dan teman", type: "S" },
+            { text: "Saya suka lingkungan kerja yang stabil", type: "S" },
+            { text: "Saya cenderung menghindari konflik", type: "S" },
+            { text: "Saya suka bekerja dengan cara yang konsisten", type: "S" },
+            { text: "Saya merasa nyaman dengan tugas yang familiar", type: "S" },
+            { text: "Saya cenderung mendukung keputusan kelompok", type: "S" },
+            { text: "Saya suka mempertahankan hubungan jangka panjang", type: "S" },
+            { text: "Saya cenderung tenang dalam situasi stres", type: "S" },
+            { text: "Saya suka bekerja dengan tempo yang steady", type: "S" },
+            { text: "Saya cenderung empati terhadap perasaan orang lain", type: "S" },
+            { text: "Saya suka memberikan dukungan kepada rekan kerja", type: "S" },
+            { text: "Saya cenderung menghargai tradisi dan nilai-nilai", type: "S" },
+            { text: "Saya suka lingkungan yang aman dan nyaman", type: "S" },
+            { text: "Saya cenderung kooperatif dalam bekerja", type: "S" },
+            { text: "Saya suka membangun konsensus sebelum bertindak", type: "S" },
+            { text: "Saya cenderung dapat diandalkan dalam menyelesaikan tugas", type: "S" },
+            { text: "Saya suka bekerja dengan orang yang dapat dipercaya", type: "S" },
+            { text: "Saya cenderung mengutamakan keharmonisan tim", type: "S" },
+
+            // Compliance Questions (24 items)
+            { text: "Saya suka menganalisis data sebelum mengambil keputusan", type: "C" },
+            { text: "Saya cenderung perfeksionis dalam pekerjaan", type: "C" },
+            { text: "Saya suka bekerja dengan standar yang tinggi", type: "C" },
+            { text: "Saya cenderung hati-hati dalam mengambil risiko", type: "C" },
+            { text: "Saya suka detail dan akurasi dalam pekerjaan", type: "C" },
+            { text: "Saya cenderung sistematis dalam pendekatan kerja", type: "C" },
+            { text: "Saya suka mengikuti prosedur yang telah ditetapkan", type: "C" },
+            { text: "Saya cenderung kritis dalam mengevaluasi informasi", type: "C" },
+            { text: "Saya suka bekerja secara independen", type: "C" },
+            { text: "Saya cenderung objektif dalam penilaian", type: "C" },
+            { text: "Saya suka mengorganisir dan merencanakan dengan baik", type: "C" },
+            { text: "Saya cenderung konservatif dalam mengambil keputusan", type: "C" },
+            { text: "Saya suka lingkungan kerja yang terstruktur", type: "C" },
+            { text: "Saya cenderung teliti dalam memeriksa hasil kerja", type: "C" },
+            { text: "Saya suka bekerja dengan fakta dan data konkret", type: "C" },
+            { text: "Saya cenderung skeptis terhadap ide-ide baru", type: "C" },
+            { text: "Saya suka mengikuti aturan dan regulasi", type: "C" },
+            { text: "Saya cenderung analitis dalam pemecahan masalah", type: "C" },
+            { text: "Saya suka dokumentasi yang lengkap dan rapi", type: "C" },
+            { text: "Saya cenderung berhati-hati dalam komunikasi", type: "C" },
+            { text: "Saya suka bekerja dengan timeline yang jelas", type: "C" },
+            { text: "Saya cenderung menghindari kesalahan dengan persiapan matang", type: "C" },
+            { text: "Saya suka lingkungan yang tenang untuk berkonsentrasi", type: "C" },
+            { text: "Saya cenderung metodis dalam menyelesaikan tugas", type: "C" }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+        let scores = { D: 0, I: 0, S: 0, C: 0 };
+        let userData = {};
+
+        // NEW: Form Validation
+        document.addEventListener('DOMContentLoaded', () => {
+            const startBtn = document.getElementById('start-btn');
+            const nameInput = document.getElementById('name');
+            const genderSelect = document.getElementById('gender');
+            const ageInput = document.getElementById('age');
+            const emailInput = document.getElementById('email');
+
+            function validateForm() {
+                if (nameInput.value.trim() !== '' && genderSelect.value !== '' && ageInput.value.trim() !== '' && emailInput.value.trim() !== '') {
+                    startBtn.disabled = false;
+                    startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    startBtn.disabled = true;
+                    startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            nameInput.addEventListener('input', validateForm);
+            genderSelect.addEventListener('change', validateForm);
+            ageInput.addEventListener('input', validateForm);
+            emailInput.addEventListener('input', validateForm);
+
+            validateForm(); // Initial check
+        });
+
+        function startTest() {
+            userData = {
+                name: document.getElementById('name').value,
+                gender: document.getElementById('gender').value,
+                age: document.getElementById('age').value,
+                email: document.getElementById('email').value,
+            };
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            document.getElementById('progress-container').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = `${currentQuestion + 1}. ${question.text}`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            const options = [
+                { text: 'Sangat Tidak Setuju', value: 1 },
+                { text: 'Tidak Setuju', value: 2 },
+                { text: 'Netral', value: 3 },
+                { text: 'Setuju', value: 4 },
+                { text: 'Sangat Setuju', value: 5 }
+            ];
+            
+            options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'flex items-center p-3 border border-gray-200 rounded-lg hover:bg-blue-50 cursor-pointer transition-colors';
+                optionDiv.onclick = () => selectOption(index, option.value);
+                
+                optionDiv.innerHTML = `
+                    <input type="radio" name="answer" value="${option.value}" class="mr-3 text-blue-600">
+                    <label class="cursor-pointer flex-1">${option.text}</label>
+                `;
+                
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            updateProgress();
+            
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? 'Selesai' : 'Selanjutnya';
+            document.getElementById('next-btn').disabled = !answers[currentQuestion];
+            
+            if (answers[currentQuestion]) {
+                const radios = document.querySelectorAll('input[name="answer"]');
+                radios[answers[currentQuestion] - 1].checked = true;
+                radios[answers[currentQuestion] - 1].parentElement.classList.add('bg-blue-50', 'border-blue-300');
+            }
+        }
+
+        function selectOption(index, value) {
+            const radios = document.querySelectorAll('input[name="answer"]');
+            const options = document.querySelectorAll('#options-container > div');
+            
+            options.forEach(opt => {
+                opt.classList.remove('bg-blue-50', 'border-blue-300');
+            });
+            
+            radios[index].checked = true;
+            options[index].classList.add('bg-blue-50', 'border-blue-300');
+            
+            answers[currentQuestion] = value;
+            
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (!answers[currentQuestion]) {
+                alert('Silakan pilih jawaban terlebih dahulu!');
+                return;
+            }
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                calculateResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${currentQuestion + 1}/96`;
+        }
+
+        function calculateResults() {
+            scores = { D: 0, I: 0, S: 0, C: 0 };
+            
+            questions.forEach((question, index) => {
+                if (answers[index]) {
+                    scores[question.type] += answers[index];
+                }
+            });
+            
+            const totalScore = scores.D + scores.I + scores.S + scores.C;
+            const percentages = {
+                D: Math.round((scores.D / totalScore) * 100),
+                I: Math.round((scores.I / totalScore) * 100),
+                S: Math.round((scores.S / totalScore) * 100),
+                C: Math.round((scores.C / totalScore) * 100)
+            };
+
+            const dominantType = Object.keys(percentages).reduce((a, b) => percentages[a] > percentages[b] ? a : b);
+            
+            sendDataToSpreadsheet(scores, dominantType);
+
+            showResults(percentages);
+        }
+
+        function showResults(percentages) {
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('progress-container').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+            
+            const scoresContainer = document.getElementById('disc-scores');
+            const types = [
+                { key: 'D', name: 'Dominance', color: 'red', description: 'Tegas & Langsung' },
+                { key: 'I', name: 'Influence', color: 'yellow', description: 'Antusias & Sosial' },
+                { key: 'S', name: 'Steadiness', color: 'green', description: 'Stabil & Sabar' },
+                { key: 'C', name: 'Compliance', color: 'blue', description: 'Teliti & Analitis' }
+            ];
+            
+            scoresContainer.innerHTML = '';
+            types.forEach(type => {
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = `bg-${type.color}-50 p-4 rounded-lg border border-${type.color}-200`;
+                scoreDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-semibold text-${type.color}-700">${type.name} (${type.key})</h4>
+                        <span class="text-${type.color}-600 font-bold">${percentages[type.key]}%</span>
+                    </div>
+                    <p class="text-sm text-${type.color}-600 mb-2">${type.description}</p>
+                    <div class="w-full bg-${type.color}-200 rounded-full h-2">
+                        <div class="bg-${type.color}-500 h-2 rounded-full" style="width: ${percentages[type.key]}%"></div>
+                    </div>
+                `;
+                scoresContainer.appendChild(scoreDiv);
+            });
+            
+            const dominantType = Object.keys(percentages).reduce((a, b) => percentages[a] > percentages[b] ? a : b);
+            const dominantTypeInfo = types.find(t => t.key === dominantType);
+            
+            document.getElementById('dominant-type').innerHTML = `
+                <div class="w-16 h-16 bg-${dominantTypeInfo.color}-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-2xl font-bold">${dominantType}</span>
+                </div>
+                <h4 class="text-xl font-semibold text-${dominantTypeInfo.color}-700 mb-2">${dominantTypeInfo.name}</h4>
+                <p class="text-${dominantTypeInfo.color}-600">${dominantTypeInfo.description}</p>
+                <p class="text-2xl font-bold text-${dominantTypeInfo.color}-700 mt-2">${percentages[dominantType]}%</p>
+            `;
+            
+            showInterpretation(dominantType, percentages);
+        }
+
+        function showInterpretation(dominantType, percentages) {
+            const interpretations = {
+                D: {
+                    title: "Tipe Dominance (D)",
+                    characteristics: [
+                        "Suka mengambil kendali dalam situasi sulit",
+                        "Berorientasi pada hasil dan pencapaian",
+                        "Tegas dalam mengambil keputusan",
+                        "Menyukai tantangan dan persaingan",
+                        "Cenderung langsung dan to-the-point"
+                    ],
+                    strengths: [
+                        "Kepemimpinan yang kuat",
+                        "Kemampuan mengambil keputusan cepat",
+                        "Berani mengambil risiko",
+                        "Fokus pada pencapaian tujuan"
+                    ],
+                    development: [
+                        "Berlatih mendengarkan pendapat orang lain",
+                        "Mengembangkan kesabaran",
+                        "Memperhatikan perasaan tim",
+                        "Belajar mendelegasikan tugas"
+                    ]
+                },
+                I: {
+                    title: "Tipe Influence (I)",
+                    characteristics: [
+                        "Mudah bergaul dan komunikatif",
+                        "Optimis dan antusias",
+                        "Suka bekerja dalam tim",
+                        "Ekspresif dan energik",
+                        "Mudah memotivasi orang lain"
+                    ],
+                    strengths: [
+                        "Kemampuan komunikasi yang baik",
+                        "Mudah membangun hubungan",
+                        "Kreatif dan inovatif",
+                        "Mampu menginspirasi orang lain"
+                    ],
+                    development: [
+                        "Meningkatkan fokus pada detail",
+                        "Belajar mengelola waktu dengan baik",
+                        "Mengembangkan kemampuan follow-up",
+                        "Berlatih mendengarkan secara aktif"
+                    ]
+                },
+                S: {
+                    title: "Tipe Steadiness (S)",
+                    characteristics: [
+                        "Stabil dan dapat diandalkan",
+                        "Sabar dan pendengar yang baik",
+                        "Loyal dan supportif",
+                        "Menyukai rutinitas dan konsistensi",
+                        "Menghindari konflik"
+                    ],
+                    strengths: [
+                        "Kemampuan bekerja sama yang baik",
+                        "Dapat diandalkan dan konsisten",
+                        "Empati yang tinggi",
+                        "Mampu mempertahankan hubungan jangka panjang"
+                    ],
+                    development: [
+                        "Belajar menghadapi perubahan",
+                        "Mengembangkan kemampuan mengambil inisiatif",
+                        "Berlatih mengekspresikan pendapat",
+                        "Meningkatkan fleksibilitas"
+                    ]
+                },
+                C: {
+                    title: "Tipe Compliance (C)",
+                    characteristics: [
+                        "Teliti dan akurat",
+                        "Analitis dan sistematis",
+                        "Mengikuti prosedur dan standar",
+                        "Objektif dalam penilaian",
+                        "Perfeksionis"
+                    ],
+                    strengths: [
+                        "Kemampuan analisis yang mendalam",
+                        "Perhatian pada detail dan kualitas",
+                        "Kemampuan perencanaan yang baik",
+                        "Objektif dan faktual"
+                    ],
+                    development: [
+                        "Belajar mengambil keputusan lebih cepat",
+                        "Mengembangkan fleksibilitas",
+                        "Berlatih komunikasi yang lebih ekspresif",
+                        "Meningkatkan toleransi terhadap kesalahan"
+                    ]
+                }
+            };
+            
+            const interpretation = interpretations[dominantType];
+            document.getElementById('interpretation').innerHTML = `
+                <h4 class="text-lg font-semibold mb-3">${interpretation.title}</h4>
+                
+                <div class="mb-4">
+                    <h5 class="font-medium text-gray-800 mb-2">Karakteristik Utama:</h5>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                        ${interpretation.characteristics.map(char => `<li>${char}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="mb-4">
+                    <h5 class="font-medium text-gray-800 mb-2">Kekuatan:</h5>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                        ${interpretation.strengths.map(strength => `<li>${strength}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-medium text-gray-800 mb-2">Area Pengembangan:</h5>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                        ${interpretation.development.map(dev => `<li>${dev}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function restartTest() {
+            currentQuestion = 0;
+            answers = [];
+            scores = { D: 0, I: 0, S: 0, C: 0 };
+            
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('progress-text').textContent = '0/96';
+
+            document.getElementById('name').value = '';
+            document.getElementById('gender').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('start-btn').disabled = true;
+        }
+
+        function sendDataToSpreadsheet(scores, dominantType) {
+            const url = 'https://script.google.com/macros/s/AKfycbwTbD116zSBK1_dIoUTIbIU-AozB-UqTQwm3Wsbi3Mu5LeEMXPEjx2pYnC8NLlehWM8/exec';
+
+            const formData = new FormData();
+            formData.append('name', userData.name);
+            formData.append('gender', userData.gender);
+            formData.append('age', userData.age);
+            formData.append('email', userData.email);
+            formData.append('scoreD', scores.D);
+            formData.append('scoreI', scores.I);
+            formData.append('scoreS', scores.S);
+            formData.append('scoreC', scores.C);
+            formData.append('dominantType', dominantType);
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' 
+            }).then(response => {
+                console.log('Data berhasil dikirim ke Google Sheet!');
+            }).catch(error => {
+                console.error('Error saat mengirim data:', error);
+            });
+        }
+
+        function downloadResult() {
+            const resultsElement = document.getElementById('results-screen').querySelector('div');
+            const downloadBtn = document.querySelector('#results-screen button.bg-gradient-to-r');
+            downloadBtn.style.display = 'none';
+
+            html2canvas(resultsElement, {
+                scale: 2,
+                useCORS: true
+            }).then(canvas => {
+                downloadBtn.style.display = 'block';
+
+                const link = document.createElement('a');
+                link.download = 'hasil_tes_disc.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ee60a4709d40ea',t:'MTc1NzgzNzEwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
